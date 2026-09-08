@@ -1,0 +1,6 @@
+node_modules/
+public/
+themes/
+db.json
+.deploy_git/
+*.log

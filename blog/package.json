@@ -1,0 +1,28 @@
+{
+  "name": "xiaoyi-blog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "小遗博客的 Hexo 源码",
+  "scripts": {
+    "prepare-theme": "node tools/prepare-theme.js",
+    "new": "npm run prepare-theme && hexo new post",
+    "build": "npm run prepare-theme && hexo clean && hexo generate && node tools/verify-build.js",
+    "preview": "npm run prepare-theme && hexo server",
+    "clean": "hexo clean"
+  },
+  "dependencies": {
+    "hexo": "7.3.0",
+    "hexo-cli": "4.3.2",
+    "hexo-generator-archive": "2.0.0",
+    "hexo-generator-category": "2.0.0",
+    "hexo-generator-index": "3.0.0",
+    "hexo-generator-tag": "2.0.0",
+    "hexo-renderer-ejs": "2.0.0",
+    "hexo-renderer-marked": "6.3.0",
+    "hexo-server": "3.0.0",
+    "hexo-theme-kratos-rebirth": "2.1.5"
+  },
+  "hexo": {
+    "version": "7.3.0"
+  }
+}
