@@ -13,10 +13,18 @@ const hash = (file) =>
 
 const home = read("index.html");
 const article = read("2026/09/08/return/index.html");
+const hello = read("2023/09/20/hello-world/index.html");
 const archive = read("archives/index.html");
 const search = JSON.parse(read("search.json"));
 
 const checks = {
+  "文章导航链接正确":
+    hello.includes('href="/2023/09/23/cs/"') && !hello.includes('href="//2023/'),
+  "侧栏位于文章左侧":
+    home.indexOf('id="kratos-widget-area"') < home.indexOf('class="col-md-8"'),
+  "未使用的主题依赖已剔除":
+    exists("vendors/aplayer@1.10.1/dist/APlayer.min.js") &&
+    !exists("vendors/mermaid@9.1.1"),
   "首页包含《回归》": home.includes("/2026/09/08/return/"),
   "首页包含 3 篇文章":
     (home.match(/class="kratos-entry-border-new clearfix"/g) || []).length === 3,

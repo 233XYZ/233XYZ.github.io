@@ -47,7 +47,7 @@ aplayer:
     id: 3204190542
   order: random
 
-sidebar: right
+sidebar: left
 widgets:
   - about
   - splitter

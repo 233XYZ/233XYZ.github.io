@@ -29,6 +29,28 @@ fs.rmSync(targetTheme, { recursive: true, force: true });
 fs.mkdirSync(themesRoot, { recursive: true });
 fs.cpSync(packageTheme, targetTheme, { recursive: true });
 
+// 只保留本站实际启用的前端依赖，避免把评论系统、Mermaid 等未用资源
+// 一并复制到每次部署的静态产物中。
+const usedVendorDirs = new Set([
+  "@fancyapps",
+  "aplayer@1.10.1",
+  "bootstrap@3.3.4",
+  "font-awesome@4.7.0",
+  "jquery@3.6.0",
+  "meting@2.0.1",
+  "nprogress@0.2.0",
+  "qrcode_js@1.0.0",
+]);
+const vendorsRoot = path.join(targetTheme, "source", "vendors");
+for (const entry of fs.readdirSync(vendorsRoot, { withFileTypes: true })) {
+  if (entry.isDirectory() && !usedVendorDirs.has(entry.name)) {
+    fs.rmSync(path.join(vendorsRoot, entry.name), {
+      recursive: true,
+      force: true,
+    });
+  }
+}
+
 const playerTemplate = path.join(
   targetTheme,
   "layout",
@@ -58,6 +80,20 @@ footer = footer.replace(
   "https://github.com"
 );
 fs.writeFileSync(footerTemplate, footer, "utf8");
+
+const postTemplate = path.join(targetTheme, "layout", "post.ejs");
+let post = fs.readFileSync(postTemplate, "utf8");
+const navigationFixes = [
+  ["config.root + page.next.path", "url_for(page.next.path)"],
+  ["config.root + page.prev.path", "url_for(page.prev.path)"],
+];
+for (const [before, after] of navigationFixes) {
+  if (!post.includes(before)) {
+    throw new Error(`未找到文章导航模板：${before}`);
+  }
+  post = post.replace(before, after);
+}
+fs.writeFileSync(postTemplate, post, "utf8");
 
 const targetDarkScript = path.join(
   targetTheme,

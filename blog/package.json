@@ -8,7 +8,8 @@
     "new": "npm run prepare-theme && hexo new post",
     "build": "npm run prepare-theme && hexo clean && hexo generate && node tools/verify-build.js",
     "preview": "npm run prepare-theme && hexo server",
-    "clean": "hexo clean"
+    "clean": "hexo clean",
+    "clean:cache": "node tools/clean-cache.js"
   },
   "dependencies": {
     "hexo": "7.3.0",

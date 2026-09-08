@@ -85,3 +85,15 @@ GitHub Actions 会自动运行 Hexo 并更新博客，不再需要手工编辑�
 - `tools/verify-build.js`：构建后的完整性检查。
 
 主题固定为 `hexo-theme-kratos-rebirth@2.1.5`，保持原博客外观。
+
+## 本地目录为什么会变大
+
+运行 `npm install` 和 `npm run build` 后，会产生 `node_modules/`、`public/`、`themes/` 和 `db.json`。它们都是可重新下载或生成的缓存，已在 `.gitignore` 中排除，不会上传到 GitHub。
+
+不需要继续本地预览时，可以运行：
+
+```powershell
+npm run clean:cache
+```
+
+这会删除上述缓存；下次本地写作前重新运行 `npm install` 即可。博客源码、文章、图片和线上网站不会被删除。
