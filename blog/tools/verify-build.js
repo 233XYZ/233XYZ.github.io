@@ -27,6 +27,16 @@ const postCount = fs
 const perPage = 10;
 const listCount = Math.min(postCount, perPage);
 
+// 主题会把 jsconfig 序列化成 public/config/main.json，封面图配置从这里读。
+let coverBaseUrl = "";
+try {
+  coverBaseUrl = String(JSON.parse(read("config/main.json")).cover.baseUrl || "");
+} catch (error) {
+  coverBaseUrl = "";
+}
+const thumbDir = path.join(publicRoot, "images", "thumb");
+const thumbCount = fs.existsSync(thumbDir) ? fs.readdirSync(thumbDir).length : 0;
+
 const checks = {
   "文章导航链接正确":
     hello.includes('href="/2023/09/23/cs/"') && !hello.includes('href="//2023/'),
@@ -62,6 +72,12 @@ const checks = {
   "深浅色修复脚本已应用":
     hash(path.join(publicRoot, "js", "kr-dark.min.js")) ===
     hash(path.join(blogRoot, "overrides", "js", "kr-dark.min.js")),
+  "交互增强样式已注入": home.includes("css/custom-ui.css"),
+  "交互增强脚本已注入": home.includes("js/custom-ui.js"),
+  "交互增强资源存在":
+    exists("css/custom-ui.css") && exists("js/custom-ui.js"),
+  "封面缩略图使用本地资源": coverBaseUrl.startsWith("/images/thumb"),
+  "本地缩略图数量齐全": thumbCount >= 20,
 };
 
 for (const [name, passed] of Object.entries(checks)) {

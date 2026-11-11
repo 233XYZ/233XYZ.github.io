@@ -70,7 +70,8 @@ jsconfig:
   main:
     cover:
       randomAmount: 20
-      baseUrl:
+      # 用主题自带的本地缩略图，避免依赖 jsdelivr（国内不稳定，首屏常白块）
+      baseUrl: /images/thumb
       filenameTemplate: thumb_{no}.webp
     createTime: '2023/09/21 20:38:42'
     donateBtn: 支持我~
