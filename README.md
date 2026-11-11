@@ -38,5 +38,17 @@ GitHub Actions 会自动构建 Hexo 并更新正式网站。更完整的写作�
 - `blog/scaffolds/post.md`：执行新建文章命令时使用的中文模板。
 - `blog/_config.yml`：Hexo 站点配置。
 - `blog/_config.kratos-rebirth.yml`：主题、播放器、导航和外观配置。
+- `blog/tools/prepare-theme.js`：准备固定版本主题并应用本站补丁。
+- `blog/tools/verify-build.js`：构建后的完整性检查。
 - `.github/workflows/deploy-pages.yml`：自动构建与发布流程。
-- 根目录现有 HTML：以前生成的静态页面，仅作为历史备份保留，不再手工维护。
+
+仓库现在**只保留 Hexo 源码**。2023 年那批手工生成的静态页面（根目录的 `index.html`、`archives/`、`vendors/` 等，共 395 个文件）已经删除，避免和自动生成的产物混淆。它们仍可在 Git 历史中找回，线上网站不受影响——GitHub Pages 发布的是 Actions 从 `blog/public` 构建出来的结果。
+
+## 发布前自检
+
+```powershell
+cd blog
+npm run build
+```
+
+该命令会生成 `public/` 并运行完整性校验。所有检查项显示 `PASS` 后再提交推送。

@@ -1,0 +1,7 @@
+# 本地工具的会话数据，不需要入库
+/.workbuddy/
+
+# 操作系统杂项
+Thumbs.db
+desktop.ini
+.DS_Store
