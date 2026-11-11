@@ -69,6 +69,9 @@
     var card =
       target instanceof Element ? target.closest(".kratos-hentry") : null;
 
+    // 文章详情页的卡片就是正文容器，跟着鼠标晃动会干扰阅读，直接不接管。
+    if (card && card.classList.contains("kratos-post-inner")) card = null;
+
     if (card !== currentCard) {
       clearTilt(currentCard);
       currentCard = card;

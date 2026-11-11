@@ -72,6 +72,9 @@ const checks = {
   "深浅色修复脚本已应用":
     hash(path.join(publicRoot, "js", "kr-dark.min.js")) ===
     hash(path.join(blogRoot, "overrides", "js", "kr-dark.min.js")),
+  "雪花脚本已替换为本站版本":
+    hash(path.join(publicRoot, "js", "snow.min.js")) ===
+    hash(path.join(blogRoot, "overrides", "js", "snow.min.js")),
   "交互增强样式已注入": home.includes("css/custom-ui.css"),
   "交互增强脚本已注入": home.includes("js/custom-ui.js"),
   "交互增强资源存在":

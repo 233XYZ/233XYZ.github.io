@@ -132,10 +132,16 @@
   }
 }
 
-/* 文章详情页的卡片本身就是正文容器，不该表现为可点击 */
+/* 文章详情页的卡片本身就是正文容器，不该表现为可点击，也不该跟着鼠标晃 */
 .kratos-hentry.kratos-post-inner {
   cursor: auto;
   animation: none;
+  transform: none;
+  transition: box-shadow var(--wb-mid) var(--wb-ease);
+}
+
+.kratos-hentry.kratos-post-inner::before {
+  display: none;
 }
 
 /* 卡片底部信息条：去掉生硬的通栏色带，改成一条极淡的分隔线 */
@@ -272,9 +278,21 @@ html[data-theme="dark"] .kratos-entry-border-new .kratos-post-meta-new {
 }
 
 /* --------------------------------------------------------------------------
-   七、无障碍：尊重系统的「减弱动效」设置
+   七、雪花画布
    -------------------------------------------------------------------------- */
 
+/* 主题给 #snow 加了一层 hsla(0,0%,88%,.05) 的浅灰底。这层底色毫无必要
+   ——雪花是画出来的，不需要背景——却是个隐患：透明度一旦被忽略
+   （强制配色、某些浏览器版本、扩展干扰），就会退化成不透明的灰白色，
+   把整屏糊住、什么都看不见。这里直接抹掉底色。 */
+#snow,
+#snow:not(.disabled) {
+  background: transparent !important;
+}
+
+/* --------------------------------------------------------------------------
+   八、无障碍：尊重系统的「减弱动效」设置
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .kratos-hentry {
     animation: none;

@@ -103,4 +103,17 @@ const targetDarkScript = path.join(
 );
 fs.copyFileSync(overrideDarkScript, targetDarkScript);
 
-console.log("Kratos-Rebirth 2.1.5 已准备，并已应用播放器与主题开关修复。");
+// 主题自带的雪花脚本会在整屏上盖一层浅灰底，透明度失效时会糊成白屏，
+// 这里用本站重写的版本替换。
+const overrideSnowScript = path.join(
+  blogRoot,
+  "overrides",
+  "js",
+  "snow.min.js"
+);
+const targetSnowScript = path.join(targetTheme, "source", "js", "snow.min.js");
+fs.copyFileSync(overrideSnowScript, targetSnowScript);
+
+console.log(
+  "Kratos-Rebirth 2.1.5 已准备，并已应用播放器、主题开关与雪花特效修复。"
+);
