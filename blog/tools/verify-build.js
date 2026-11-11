@@ -17,6 +17,16 @@ const hello = read("2023/09/20/hello-world/index.html");
 const archive = read("archives/index.html");
 const search = JSON.parse(read("search.json"));
 
+// 文章数量随写作持续增加，这里按 source/_posts 实际文件数动态计算，
+// 避免每发一篇新文章都要手工改这个校验文件。
+const postDir = path.join(blogRoot, "source", "_posts");
+const postCount = fs
+  .readdirSync(postDir)
+  .filter((name) => name.endsWith(".md")).length;
+// 首页和归档都受 _config.yml 的 per_page 限制，只显示最近若干篇。
+const perPage = 10;
+const listCount = Math.min(postCount, perPage);
+
 const checks = {
   "文章导航链接正确":
     hello.includes('href="/2023/09/23/cs/"') && !hello.includes('href="//2023/'),
@@ -26,16 +36,17 @@ const checks = {
     exists("vendors/aplayer@1.10.1/dist/APlayer.min.js") &&
     !exists("vendors/mermaid@9.1.1"),
   "首页包含《回归》": home.includes("/2026/09/08/return/"),
-  "首页包含 3 篇文章":
-    (home.match(/class="kratos-entry-border-new clearfix"/g) || []).length === 3,
+  "首页文章数与源文章数一致":
+    (home.match(/class="kratos-entry-border-new clearfix"/g) || []).length ===
+    listCount,
   "《回归》标题正确": article.includes(">回归<"),
   "《回归》正文正确": article.includes(
     "毕业后，突然想起了，以前搭建的这个博客"
   ),
   "《回归》标签正确": article.includes("生活") && article.includes("记录"),
-  "归档包含 3 篇文章":
-    (archive.match(/class="post-title-link"/g) || []).length === 3,
-  "搜索索引包含 3 篇文章": search.length === 3,
+  "归档文章数与源文章数一致":
+    (archive.match(/class="post-title-link"/g) || []).length === listCount,
+  "搜索索引收录全部文章": search.length === postCount,
   "播放器使用可用接口": home.includes(
     "https://meting-api-omega.vercel.app/api?server=:server&amp;type=:type&amp;id=:id&amp;r=:r"
   ),
